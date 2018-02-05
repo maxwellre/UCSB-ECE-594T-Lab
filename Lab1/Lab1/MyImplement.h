@@ -9,5 +9,20 @@
 //---------------------------------------------------------------------------
 
 // A pointer to the haptic devices detected on this computer (defined in Lab1.cpp)
-extern cGenericHapticDevice* hapticDevices;
+extern cGenericHapticDevice* hapticDevice;
 
+// Device maximum viscosity 
+extern double maxLinearDamping;
+
+// A 3D cursors for the haptic device
+extern cShapeSphere* a3DCursor;
+
+// A line to display displacement of the cursor
+extern cShapeLine* displacementVector;
+
+// material properties used to render the color of the cursors
+extern cMaterial matCursorButtonON;
+extern cMaterial matCursorButtonOFF;
+
+// Implement the model inside the function
+void myImplement();

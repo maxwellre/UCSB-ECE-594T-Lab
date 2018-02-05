@@ -59,7 +59,7 @@ int displayW  = 0;
 int displayH  = 0;
 
 // A pointer to the haptic devices detected on this computer
-cGenericHapticDevice* hapticDevices;
+cGenericHapticDevice* hapticDevice;
 
 // a haptic device handler
 cHapticDeviceHandler* handler;
@@ -72,8 +72,14 @@ cGenericObject* rootLabels;
 // number of haptic devices detected
 int numHapticDevices = 0;
 
+// Device maximum viscosity 
+double maxLinearDamping;
+
 // A 3D cursors for the haptic device
 cShapeSphere* a3DCursor;
+
+// A line to display displacement of the cursor
+cShapeLine* displacementVector;
 
 // material properties used to render the color of the cursors
 cMaterial matCursorButtonON;
@@ -84,12 +90,6 @@ bool simulationRunning = false;
 
 // root resource path
 string resourceRoot;
-
-// damping mode ON/OFF
-bool useDamping = false;
-
-// force field mode ON/OFF
-bool useForceField = true;
 
 // has exited haptics simulation thread
 bool simulationFinished = false;
@@ -154,14 +154,11 @@ int main(int argc, char* argv[])
 
     printf ("\n");
     printf ("-----------------------------------\n");
-    printf ("CHAI 3D\n");
-    printf ("Demo: 01-devices\n");
-    printf ("Copyright 2003-2009\n");
+    printf ("ECE594T Haptics\n");
+    printf ("Lab1: Spring-damper System\n");
     printf ("-----------------------------------\n");
     printf ("\n\n");
     printf ("Keyboard Options:\n\n");
-    printf ("[1] - Render attraction force\n");
-    printf ("[2] - Render viscous environment\n");
     printf ("[x] - Exit application\n");
     printf ("\n\n");
 
@@ -185,7 +182,7 @@ int main(int argc, char* argv[])
     world->addChild(camera);
 
     // position and oriente the camera
-    camera->set( cVector3d (0.5, 0.0, 0.0),    // camera position (eye)
+    camera->set( cVector3d (0.2, 0.0, 0.0),    // camera position (eye)
                  cVector3d (0.0, 0.0, 0.0),    // lookat position (target)
                  cVector3d (0.0, 0.0, 1.0));   // direction of the "up" vector
 
@@ -200,45 +197,6 @@ int main(int argc, char* argv[])
     light->setPos(cVector3d( 2.0, 0.5, 1.0));  // position the light source
     light->setDir(cVector3d(-2.0, 0.5, 1.0));  // define the direction of the light beam
 
-
-    //-----------------------------------------------------------------------
-    // 2D - WIDGETS
-    //-----------------------------------------------------------------------
-
-    // create a 2D bitmap logo
-    logo = new cBitmap();
-
-    // add logo to the front plane
-    camera->m_front_2Dscene.addChild(logo);
-
-    // load a "chai3d" bitmap image file
-    bool fileload;
-    fileload = logo->m_image.loadFromFile(RESOURCE_PATH("resources/images/chai3d.bmp"));
-    if (!fileload)
-    {
-        #if defined(_MSVC)
-        fileload = logo->m_image.loadFromFile("../../../bin/resources/images/chai3d.bmp");
-        #endif
-    }
-
-    // position the logo at the bottom left of the screen (pixel coordinates)
-    logo->setPos(10, 10, 0);
-
-    // scale the logo along its horizontal and vertical axis
-    logo->setZoomHV(0.4, 0.4);
-
-    // here we replace all black pixels (0,0,0) of the logo bitmap
-    // with transparent black pixels (0, 0, 0, 0). This allows us to make
-    // the background of the logo look transparent.
-    logo->m_image.replace(
-                          cColorb(0, 0, 0),      // original RGB color
-                          cColorb(0, 0, 0, 0)    // new RGBA color
-                          );
-
-    // enable transparency
-    logo->enableTransparency(true);
-
-
     //-----------------------------------------------------------------------
     // HAPTIC DEVICES / TOOLS
     //-----------------------------------------------------------------------
@@ -251,7 +209,7 @@ int main(int argc, char* argv[])
 
 	if( numHapticDevices > 1 )
 	{
-		printf("More than one haptic device detected: %d\n", numHapticDevices);
+		printf("More than one haptic device detected: %d\nUse device[0] only!\n", numHapticDevices);
 	}
 
     // create a node on which we will attach small labels that display the
@@ -266,63 +224,46 @@ int main(int argc, char* argv[])
     // define its position, color and string message
     titleLabel->setPos(0, 30, 0);
     titleLabel->m_fontColor.set(1.0, 1.0, 1.0);
-    titleLabel->m_string = "Haptic Device Pos [mm]:";
+    titleLabel->m_string = "Haptic Device Displacement [mm]:";
 
-    // for each available haptic device, create a 3D cursor
-    // and a small line to show velocity
-    // get a handle to the next haptic device
-    cGenericHapticDevice* newHapticDevice;
-    handler->getDevice(newHapticDevice, 0);
+    // for the haptic device, create a 3D cursor
+    // get a handle to the haptic device
+    handler->getDevice(hapticDevice, 0);
 
     // open connection to haptic device
-    newHapticDevice->open();
+    hapticDevice->open();
 
 	// initialize haptic device
-	newHapticDevice->initialize();
-
-    // store the handle in the haptic device table
-    hapticDevices = newHapticDevice;
+	hapticDevice->initialize();
 
     // retrieve information about the current haptic device
-    cHapticDeviceInfo info = newHapticDevice->getSpecifications();
+    cHapticDeviceInfo info = hapticDevice->getSpecifications();
+
+	maxLinearDamping = info.m_maxLinearDamping; // = 20 For Novint Falcon
 
     // create a cursor by setting its radius
-    cShapeSphere* newCursor = new cShapeSphere(0.01);
+    a3DCursor = new cShapeSphere(0.002);
 
     // add cursor to the world
-    world->addChild(newCursor);
+    world->addChild(a3DCursor);
 
-    // add cursor to the cursor table
-    a3DCursor = newCursor;
-
-    // create a small line to illustrate velocity
-    cShapeLine* newLine = new cShapeLine(cVector3d(0,0,0), cVector3d(0,0,0));
+    // create a small line to illustrate displacement of the cursor (from the origin)
+	displacementVector = new cShapeLine(cVector3d(0,0,0), cVector3d(0,0,0));
 
     // add line to the world
-    world->addChild(newLine);
+    world->addChild(displacementVector);
 
     // create a string that concatenates the device number and model name.
     string strID;
     cStr(strID, 0);
-    string strDevice = "#" + strID + " - " +info.m_modelName;
+    string strDevice = info.m_modelName + " Cursor";
 
     // attach a small label next to the cursor to indicate device information
     cLabel* newLabel = new cLabel();
-    newCursor->addChild(newLabel);
+    a3DCursor->addChild(newLabel);
     newLabel->m_string = strDevice;
     newLabel->setPos(0.00, 0.02, 0.00);
     newLabel->m_fontColor.set(1.0, 1.0, 1.0);
-
-    // if the device provided orientation sensing (stylus), a reference
-    // frame is displayed
-    if (info.m_sensedRotation == true)
-    {
-        // display a reference frame
-        newCursor->setShowFrame(true);
-
-        // set the size of the reference frame
-        newCursor->setFrameSize(0.05, 0.05);
-    }
 
     // crate a small label to indicate the position of the device
     cLabel* newPosLabel = new cLabel();
@@ -423,34 +364,6 @@ void keySelect(unsigned char key, int x, int y)
         // exit application
         exit(0);
     }
-
-    // option 1:
-    if (key == '1')
-    {
-        useForceField = !useForceField;
-        if (useForceField)
-        {
-            printf ("- Enable force field\n");
-        }
-        else
-        {
-            printf ("- Disable force field\n");
-        }
-    }
-
-    // option 2:
-    if (key == '2')
-    {
-        useDamping = !useDamping;
-        if (useDamping)
-        {
-            printf ("- Enable viscosity\n");
-        }
-        else
-        {
-            printf ("- Disable viscosity\n");
-        }
-    }
 }
 
 //---------------------------------------------------------------------------
@@ -482,7 +395,7 @@ void close(void)
     while (!simulationFinished) { cSleepMs(100); }
 
     // close the haptic devices
-	hapticDevices->close();
+	hapticDevice->close();
 }
 
 //---------------------------------------------------------------------------
@@ -492,7 +405,7 @@ void updateGraphics(void)
     // update content of position label
     // read position of device an convert into millimeters
     cVector3d pos;
-    hapticDevices->getPosition(pos);
+    hapticDevice->getPosition(pos);
     pos.mul(1000);
 
     // create a string that concatenates the device number and its position.
@@ -533,59 +446,7 @@ void updateHaptics(void)
     // main haptic simulation loop
     while(simulationRunning)
     {
-        // read position of haptic device
-        cVector3d newPosition;
-        hapticDevices->getPosition(newPosition);
-
-        // read orientation of haptic device
-        cMatrix3d newRotation;
-        hapticDevices->getRotation(newRotation);
-
-        // update position and orientation of cursor
-        a3DCursor->setPos(newPosition);
-        a3DCursor->setRot(newRotation);
-
-        // read linear velocity from device
-        cVector3d linearVelocity;
-        hapticDevices->getLinearVelocity(linearVelocity);
-
-        // read user button status
-        bool buttonStatus;
-        hapticDevices->getUserSwitch(0, buttonStatus);
-
-        // adjustthe  color of the cursor according to the status of
-        // the user switch (ON = TRUE / OFF = FALSE)
-        if (buttonStatus)
-        {
-            a3DCursor->m_material = matCursorButtonON;
-        }
-        else
-        {
-            a3DCursor->m_material = matCursorButtonOFF;
-        }
-
-        // compute a reaction force
-        cVector3d newForce (0,0,0);
-
-        // apply force field
-        if (useForceField)
-        {
-            double Kp = 20.0; // [N/m]
-            cVector3d force = cMul(-Kp, newPosition);
-            newForce.add(force);
-        }
-        
-        // apply viscosity
-        if (useDamping)
-        {
-            cHapticDeviceInfo info = hapticDevices->getSpecifications();
-            double Kv = info.m_maxLinearDamping;
-            cVector3d force = cMul(-Kv, linearVelocity);
-            newForce.add(force);
-        }
-
-        // send computed force to haptic device
-        hapticDevices->setForce(newForce);
+        myImplement();
     }
     
     // exit haptics thread

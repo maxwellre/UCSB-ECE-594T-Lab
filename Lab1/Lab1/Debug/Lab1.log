@@ -1,4 +1,4 @@
-﻿Build started 2/5/2018 12:02:41 PM.
+﻿Build started 2/5/2018 3:56:11 PM.
      1>Project "C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Lab1\Lab1.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Lab1.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -38,7 +38,6 @@
      1>chai3d-debug.lib(CWorld.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CWorld.obj)' or at 'C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Debug\vc100.pdb'; linking object as if no debug info
      1>chai3d-debug.lib(CPrecisionClock.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CPrecisionClock.obj)' or at 'C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Debug\vc100.pdb'; linking object as if no debug info
      1>chai3d-debug.lib(CThread.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CThread.obj)' or at 'C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Debug\vc100.pdb'; linking object as if no debug info
-     1>chai3d-debug.lib(CBitmap.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CBitmap.obj)' or at 'C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Debug\vc100.pdb'; linking object as if no debug info
      1>chai3d-debug.lib(CFont.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CFont.obj)' or at 'C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Debug\vc100.pdb'; linking object as if no debug info
      1>chai3d-debug.lib(CLabel.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CLabel.obj)' or at 'C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Debug\vc100.pdb'; linking object as if no debug info
      1>chai3d-debug.lib(CExtras.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CExtras.obj)' or at 'C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Debug\vc100.pdb'; linking object as if no debug info
@@ -52,4 +51,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.56
+Time Elapsed 00:00:01.50
