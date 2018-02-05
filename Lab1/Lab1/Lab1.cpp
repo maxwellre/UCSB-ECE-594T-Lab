@@ -17,17 +17,14 @@
     \version   2.0.0 $Rev: 265 $
 */
 //===========================================================================
-
+#include <stdafx.h>
 //---------------------------------------------------------------------------
-#include "stdafx.h"
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//---------------------------------------------------------------------------
-#include "chai3d.h"
-//---------------------------------------------------------------------------
+#include "MyImplement.h"
 
 //---------------------------------------------------------------------------
 // DECLARED CONSTANTS
@@ -40,10 +37,6 @@ const int WINDOW_SIZE_H         = 600;
 // mouse menu options (right button)
 const int OPTION_FULLSCREEN     = 1;
 const int OPTION_WINDOWDISPLAY  = 2;
-
-// maximum number of haptic devices supported in this demo
-const int MAX_DEVICES           = 8;
-
 
 //---------------------------------------------------------------------------
 // DECLARED VARIABLES
@@ -65,25 +58,22 @@ cBitmap* logo;
 int displayW  = 0;
 int displayH  = 0;
 
+// A pointer to the haptic devices detected on this computer
+cGenericHapticDevice* hapticDevices;
+
 // a haptic device handler
 cHapticDeviceHandler* handler;
 
-// a table containing pointers to all haptic devices detected on this computer
-cGenericHapticDevice* hapticDevices[MAX_DEVICES];
+// A pointer to label which display the position of the haptic device
+cLabel* posiLabel;
 
-// a table containing pointers to label which display the position of
-// each haptic device
-cLabel* labels[MAX_DEVICES];
 cGenericObject* rootLabels;
 
 // number of haptic devices detected
 int numHapticDevices = 0;
 
-// table containing a list of 3D cursors for each haptic device
-cShapeSphere* cursors[MAX_DEVICES];
-
-// table containing a list of lines to display velocity
-cShapeLine* velocityVectors[MAX_DEVICES];
+// A 3D cursors for the haptic device
+cShapeSphere* a3DCursor;
 
 // material properties used to render the color of the cursors
 cMaterial matCursorButtonON;
@@ -259,8 +249,10 @@ int main(int argc, char* argv[])
     // read the number of haptic devices currently connected to the computer
     numHapticDevices = handler->getNumDevices();
 
-    // limit the number of devices to MAX_DEVICES
-    numHapticDevices = cMin(numHapticDevices, MAX_DEVICES);
+	if( numHapticDevices > 1 )
+	{
+		printf("More than one haptic device detected: %d\n", numHapticDevices);
+	}
 
     // create a node on which we will attach small labels that display the
     // position of each haptic device
@@ -278,74 +270,66 @@ int main(int argc, char* argv[])
 
     // for each available haptic device, create a 3D cursor
     // and a small line to show velocity
-    int i = 0;
-    while (i < numHapticDevices)
+    // get a handle to the next haptic device
+    cGenericHapticDevice* newHapticDevice;
+    handler->getDevice(newHapticDevice, 0);
+
+    // open connection to haptic device
+    newHapticDevice->open();
+
+	// initialize haptic device
+	newHapticDevice->initialize();
+
+    // store the handle in the haptic device table
+    hapticDevices = newHapticDevice;
+
+    // retrieve information about the current haptic device
+    cHapticDeviceInfo info = newHapticDevice->getSpecifications();
+
+    // create a cursor by setting its radius
+    cShapeSphere* newCursor = new cShapeSphere(0.01);
+
+    // add cursor to the world
+    world->addChild(newCursor);
+
+    // add cursor to the cursor table
+    a3DCursor = newCursor;
+
+    // create a small line to illustrate velocity
+    cShapeLine* newLine = new cShapeLine(cVector3d(0,0,0), cVector3d(0,0,0));
+
+    // add line to the world
+    world->addChild(newLine);
+
+    // create a string that concatenates the device number and model name.
+    string strID;
+    cStr(strID, 0);
+    string strDevice = "#" + strID + " - " +info.m_modelName;
+
+    // attach a small label next to the cursor to indicate device information
+    cLabel* newLabel = new cLabel();
+    newCursor->addChild(newLabel);
+    newLabel->m_string = strDevice;
+    newLabel->setPos(0.00, 0.02, 0.00);
+    newLabel->m_fontColor.set(1.0, 1.0, 1.0);
+
+    // if the device provided orientation sensing (stylus), a reference
+    // frame is displayed
+    if (info.m_sensedRotation == true)
     {
-        // get a handle to the next haptic device
-        cGenericHapticDevice* newHapticDevice;
-        handler->getDevice(newHapticDevice, i);
+        // display a reference frame
+        newCursor->setShowFrame(true);
 
-        // open connection to haptic device
-        newHapticDevice->open();
-
-		// initialize haptic device
-		newHapticDevice->initialize();
-
-        // store the handle in the haptic device table
-        hapticDevices[i] = newHapticDevice;
-
-        // retrieve information about the current haptic device
-        cHapticDeviceInfo info = newHapticDevice->getSpecifications();
-
-        // create a cursor by setting its radius
-        cShapeSphere* newCursor = new cShapeSphere(0.01);
-
-        // add cursor to the world
-        world->addChild(newCursor);
-
-        // add cursor to the cursor table
-        cursors[i] = newCursor;
-
-        // create a small line to illustrate velocity
-        cShapeLine* newLine = new cShapeLine(cVector3d(0,0,0), cVector3d(0,0,0));
-        velocityVectors[i] = newLine;
-
-        // add line to the world
-        world->addChild(newLine);
-
-        // create a string that concatenates the device number and model name.
-        string strID;
-        cStr(strID, i);
-        string strDevice = "#" + strID + " - " +info.m_modelName;
-
-        // attach a small label next to the cursor to indicate device information
-        cLabel* newLabel = new cLabel();
-        newCursor->addChild(newLabel);
-        newLabel->m_string = strDevice;
-        newLabel->setPos(0.00, 0.02, 0.00);
-        newLabel->m_fontColor.set(1.0, 1.0, 1.0);
-
-        // if the device provided orientation sensing (stylus), a reference
-        // frame is displayed
-        if (info.m_sensedRotation == true)
-        {
-            // display a reference frame
-            newCursor->setShowFrame(true);
-
-            // set the size of the reference frame
-            newCursor->setFrameSize(0.05, 0.05);
-        }
-
-        // crate a small label to indicate the position of the device
-        cLabel* newPosLabel = new cLabel();
-        rootLabels->addChild(newPosLabel);
-        newPosLabel->setPos(0, -20 * i, 0);
-        newPosLabel->m_fontColor.set(0.6, 0.6, 0.6);
-        labels[i] = newPosLabel;
-
-        // increment counter
-        i++;
+        // set the size of the reference frame
+        newCursor->setFrameSize(0.05, 0.05);
     }
+
+    // crate a small label to indicate the position of the device
+    cLabel* newPosLabel = new cLabel();
+    rootLabels->addChild(newPosLabel);
+    newPosLabel->setPos(0, 0, 0);
+    newPosLabel->m_fontColor.set(0.6, 0.6, 0.6);
+    posiLabel = newPosLabel;
 
     // here we define the material properties of the cursor when the
     // user button of the device end-effector is engaged (ON) or released (OFF)
@@ -497,13 +481,8 @@ void close(void)
     // wait for graphics and haptics loops to terminate
     while (!simulationFinished) { cSleepMs(100); }
 
-    // close all haptic devices
-    int i=0;
-    while (i < numHapticDevices)
-    {
-        hapticDevices[i]->close();
-        i++;
-    }
+    // close the haptic devices
+	hapticDevices->close();
 }
 
 //---------------------------------------------------------------------------
@@ -511,26 +490,23 @@ void close(void)
 void updateGraphics(void)
 {
     // update content of position label
-    for (int i=0; i<numHapticDevices; i++)
-    {
-        // read position of device an convert into millimeters
-        cVector3d pos;
-        hapticDevices[i]->getPosition(pos);
-        pos.mul(1000);
+    // read position of device an convert into millimeters
+    cVector3d pos;
+    hapticDevices->getPosition(pos);
+    pos.mul(1000);
 
-        // create a string that concatenates the device number and its position.
-        string strID;
-        cStr(strID, i);
-        string strLabel = "#" + strID + "  x: ";
+    // create a string that concatenates the device number and its position.
+    string strID;
+    cStr(strID, 0);
+    string strLabel = "#" + strID + "  x: ";
 
-        cStr(strLabel, pos.x, 2);
-        strLabel = strLabel + "   y: ";
-        cStr(strLabel, pos.y, 2);
-        strLabel = strLabel + "  z: ";
-        cStr(strLabel, pos.z, 2);
+    cStr(strLabel, pos.x, 2);
+    strLabel = strLabel + "   y: ";
+    cStr(strLabel, pos.y, 2);
+    strLabel = strLabel + "  z: ";
+    cStr(strLabel, pos.z, 2);
 
-        labels[i]->m_string = strLabel;
-    }
+    posiLabel->m_string = strLabel;
 
     // render world
     camera->renderView(displayW, displayH);
@@ -557,71 +533,59 @@ void updateHaptics(void)
     // main haptic simulation loop
     while(simulationRunning)
     {
-        // for each device
-        int i=0;
-        while (i < numHapticDevices)
+        // read position of haptic device
+        cVector3d newPosition;
+        hapticDevices->getPosition(newPosition);
+
+        // read orientation of haptic device
+        cMatrix3d newRotation;
+        hapticDevices->getRotation(newRotation);
+
+        // update position and orientation of cursor
+        a3DCursor->setPos(newPosition);
+        a3DCursor->setRot(newRotation);
+
+        // read linear velocity from device
+        cVector3d linearVelocity;
+        hapticDevices->getLinearVelocity(linearVelocity);
+
+        // read user button status
+        bool buttonStatus;
+        hapticDevices->getUserSwitch(0, buttonStatus);
+
+        // adjustthe  color of the cursor according to the status of
+        // the user switch (ON = TRUE / OFF = FALSE)
+        if (buttonStatus)
         {
-            // read position of haptic device
-            cVector3d newPosition;
-            hapticDevices[i]->getPosition(newPosition);
-
-            // read orientation of haptic device
-            cMatrix3d newRotation;
-            hapticDevices[i]->getRotation(newRotation);
-
-            // update position and orientation of cursor
-            cursors[i]->setPos(newPosition);
-            cursors[i]->setRot(newRotation);
-
-            // read linear velocity from device
-            cVector3d linearVelocity;
-            hapticDevices[i]->getLinearVelocity(linearVelocity);
-
-            // update arrow
-            velocityVectors[i]->m_pointA = newPosition;
-            velocityVectors[i]->m_pointB = cAdd(newPosition, linearVelocity);
-
-            // read user button status
-            bool buttonStatus;
-            hapticDevices[i]->getUserSwitch(0, buttonStatus);
-
-            // adjustthe  color of the cursor according to the status of
-            // the user switch (ON = TRUE / OFF = FALSE)
-            if (buttonStatus)
-            {
-                cursors[i]->m_material = matCursorButtonON;
-            }
-            else
-            {
-                cursors[i]->m_material = matCursorButtonOFF;
-            }
-
-            // compute a reaction force
-            cVector3d newForce (0,0,0);
-
-            // apply force field
-            if (useForceField)
-            {
-                double Kp = 20.0; // [N/m]
-                cVector3d force = cMul(-Kp, newPosition);
-                newForce.add(force);
-            }
-        
-            // apply viscosity
-            if (useDamping)
-            {
-                cHapticDeviceInfo info = hapticDevices[i]->getSpecifications();
-                double Kv = info.m_maxLinearDamping;
-                cVector3d force = cMul(-Kv, linearVelocity);
-                newForce.add(force);
-            }
-
-            // send computed force to haptic device
-            hapticDevices[i]->setForce(newForce);
-
-            // increment counter
-            i++;
+            a3DCursor->m_material = matCursorButtonON;
         }
+        else
+        {
+            a3DCursor->m_material = matCursorButtonOFF;
+        }
+
+        // compute a reaction force
+        cVector3d newForce (0,0,0);
+
+        // apply force field
+        if (useForceField)
+        {
+            double Kp = 20.0; // [N/m]
+            cVector3d force = cMul(-Kp, newPosition);
+            newForce.add(force);
+        }
+        
+        // apply viscosity
+        if (useDamping)
+        {
+            cHapticDeviceInfo info = hapticDevices->getSpecifications();
+            double Kv = info.m_maxLinearDamping;
+            cVector3d force = cMul(-Kv, linearVelocity);
+            newForce.add(force);
+        }
+
+        // send computed force to haptic device
+        hapticDevices->setForce(newForce);
     }
     
     // exit haptics thread
