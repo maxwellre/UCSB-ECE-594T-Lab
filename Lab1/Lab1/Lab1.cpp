@@ -411,7 +411,7 @@ void updateGraphics(void)
     // create a string that concatenates the device number and its position.
     string strID;
     cStr(strID, 0);
-    string strLabel = "#" + strID + "  x: ";
+    string strLabel = "  x: ";
 
     cStr(strLabel, pos.x, 2);
     strLabel = strLabel + "   y: ";

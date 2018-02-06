@@ -7,13 +7,8 @@ void myImplement()
     cVector3d newPosition;
     hapticDevice->getPosition(newPosition);
 
-    // read orientation of haptic device
-    cMatrix3d newRotation;
-    hapticDevice->getRotation(newRotation);
-
-    // update position and orientation of cursor
+    // update position of cursor
     a3DCursor->setPos(newPosition);
-    a3DCursor->setRot(newRotation);
 
     // read linear velocity from device
     cVector3d linearVelocity;
