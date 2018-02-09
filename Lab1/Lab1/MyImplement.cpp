@@ -18,33 +18,26 @@ void myImplement()
     displacementVector->m_pointA = cVector3d(0,0,0);
     displacementVector->m_pointB = newPosition;
 
-    // read user button status
-    bool buttonStatus;
-    hapticDevice->getUserSwitch(0, buttonStatus);
-
-    // adjustthe  color of the cursor according to the status of
-    // the user switch (ON = TRUE / OFF = FALSE)
-    if (buttonStatus)
-    {
-        a3DCursor->m_material = matCursorButtonON;
-    }
-    else
-    {
-        a3DCursor->m_material = matCursorButtonOFF;
-    }
-
     // compute a reaction force
     cVector3d newForce (0,0,0);
+	cVector3d yaxis (0,1,0);
 
-    // apply force field
-    double Kp = 100.0; // [N/m]
-    cVector3d force = cMul(-Kp, newPosition);
-        
-    // apply viscosity 
-    double Kv = 10;
-	if ( Kv < maxLinearDamping )
+    // apply force 
+    double Kp = 8000.0; // [N/m]
+    cVector3d force(0,0,0);
+
+	if (newPosition.y < 0.0)
 	{
-		force += cMul(-Kv, linearVelocity);
+		force = cMul(-Kp, newPosition);
+        
+	    // apply viscosity 
+		double Kv = 5.5;
+	
+		if ( Kv < maxLinearDamping )
+		{
+			force += cMul(-Kv, linearVelocity);
+		}
+		force.x = 0.0; force.z = 0.0;
 	}
 
     newForce.add(force);

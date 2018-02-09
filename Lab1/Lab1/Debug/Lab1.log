@@ -1,4 +1,4 @@
-﻿Build started 2/5/2018 4:54:04 PM.
+﻿Build started 2/8/2018 5:57:06 PM.
      1>Project "C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Lab1\Lab1.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Lab1.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -51,4 +51,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.49
+Time Elapsed 00:00:02.10
