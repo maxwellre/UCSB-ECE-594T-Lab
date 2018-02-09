@@ -1,14 +1,14 @@
-﻿Build started 2/8/2018 5:57:06 PM.
+﻿Build started 2/9/2018 3:36:43 PM.
      1>Project "C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Lab1\Lab1.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "Debug\Lab1.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Debug\Lab1.unsuccessfulbuild".
        ClCompile:
          All outputs are up-to-date.
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"..\..\chai3d-2.0.0\src" /I"..\..\chai3d-2.0.0\external\OpenGL\msvc" /ZI /nologo /W3 /WX- /Od /Oy- /D _WIN32 /D _MSVC /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Lab1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt MyImplement.cpp
-         MyImplement.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"..\..\chai3d-2.0.0\src" /I"..\..\chai3d-2.0.0\external\OpenGL\msvc" /ZI /nologo /W3 /WX- /Od /Oy- /D _WIN32 /D _MSVC /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Lab1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Lab1.cpp
+         Lab1.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Debug\Lab1.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"..\..\chai3d-2.0.0\lib\msvc9" /LIBPATH:"..\..\chai3d-2.0.0\external\OpenGL\msvc" winmm.lib opengl32.lib "chai3d-debug.lib" glu32.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Lab1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Debug\Lab1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Debug\Lab1.lib" /MACHINE:X86 Debug\Lab1.obj
-         Debug\MyImplement.obj
+         Debug\MyImplementation.obj
          Debug\stdafx.obj
      1>Lab1.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
      1>chai3d-debug.lib(CDraw3D.obj) : warning LNK4248: unresolved typeref token (0100001C) for 'GLUquadric'; image may not run
@@ -51,4 +51,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.10
+Time Elapsed 00:00:01.54

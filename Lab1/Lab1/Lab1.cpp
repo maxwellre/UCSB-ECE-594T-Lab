@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "MyImplement.h"
+#include "MyImplementation.h"
 
 //---------------------------------------------------------------------------
 // DECLARED CONSTANTS
@@ -94,6 +94,13 @@ string resourceRoot;
 // has exited haptics simulation thread
 bool simulationFinished = false;
 
+// Timer
+cPrecisionClock aTimer;
+
+// Save position data
+std::string posiFileName;
+std::ofstream posiOFS;
+
 //---------------------------------------------------------------------------
 // DECLARED MACROS
 //---------------------------------------------------------------------------
@@ -152,6 +159,8 @@ int main(int argc, char* argv[])
     // INITIALIZATION
     //-----------------------------------------------------------------------
 
+	posiFileName = "CursorPosition.txt";
+
     printf ("\n");
     printf ("-----------------------------------\n");
     printf ("ECE594T Haptics\n");
@@ -161,11 +170,13 @@ int main(int argc, char* argv[])
     printf ("Keyboard Options:\n\n");
     printf ("[x] - Exit application\n");
     printf ("\n\n");
+	printf ("-----------------------------------\n");
+	std::cout << "Cursor position data will be saved to " << posiFileName << std::endl;
 
     // parse first arg to try and locate resources
     resourceRoot = string(argv[0]).substr(0,string(argv[0]).find_last_of("/\\")+1);
 
-
+	posiOFS.open(posiFileName);
     //-----------------------------------------------------------------------
     // 3D - SCENEGRAPH
     //-----------------------------------------------------------------------
@@ -328,11 +339,21 @@ int main(int argc, char* argv[])
     cThread* hapticsThread = new cThread();
     hapticsThread->set(updateHaptics, CHAI_THREAD_PRIORITY_HAPTICS);
 
+	// start the timer
+	aTimer.reset();
+	aTimer.start();
+
     // start the main graphics rendering loop
     glutMainLoop();
 
     // close everything
     close();
+
+	// stop the timer
+	aTimer.stop();
+
+	// close data saving file
+	posiOFS.close();
 
     // exit
     return (0);
