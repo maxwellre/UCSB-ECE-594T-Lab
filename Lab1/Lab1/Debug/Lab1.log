@@ -1,7 +1,7 @@
-﻿Build started 2/9/2018 3:36:43 PM.
+﻿Build started 2/9/2018 3:50:21 PM.
      1>Project "C:\Users\Re Touch Lab\Desktop\ECE594TLab\Lab1\Lab1\Lab1.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\Lab1.unsuccessfulbuild".
+         Creating "Debug\Lab1.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"..\..\chai3d-2.0.0\src" /I"..\..\chai3d-2.0.0\external\OpenGL\msvc" /ZI /nologo /W3 /WX- /Od /Oy- /D _WIN32 /D _MSVC /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Lab1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Lab1.cpp
@@ -51,4 +51,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.54
+Time Elapsed 00:00:01.94

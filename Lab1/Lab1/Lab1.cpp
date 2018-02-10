@@ -159,7 +159,7 @@ int main(int argc, char* argv[])
     // INITIALIZATION
     //-----------------------------------------------------------------------
 
-	posiFileName = "CursorPosition.txt";
+	posiFileName = "../../CursorPosition.csv";
 
     printf ("\n");
     printf ("-----------------------------------\n");
