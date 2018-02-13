@@ -1,3 +1,7 @@
+//===========================================================================
+// Your implementation of the spring-damper system 
+//===========================================================================
+
 #include <stdafx.h>
 #include "MyImplementation.h"
 
@@ -23,26 +27,17 @@ void myImplement()
 
     // compute a reaction force
     cVector3d newForce (0,0,0);
-	cVector3d yaxis (0,1,0);
 
-    // apply force 
-    double Kp = 500.0; // [N/m]
-    cVector3d force(0,0,0);
-
-	//if (newPosition.y < 0.0)
-	//{
-		force = cMul(-Kp, newPosition);
+    // apply force field
+    double Kp = 100.0; // [N/m]
+    cVector3d force = cMul(-Kp, newPosition);
         
-	    // apply viscosity 
-		double Kv = 5.5;
-	
-		if ( Kv < maxLinearDamping )
-		{
-			force += cMul(-Kv, linearVelocity);
-		}
-
-	//	force.x = 0.0; force.z = 0.0;
-	//}
+    // apply viscosity 
+    double Kv = 1.0; // Kv < 20.0
+	if ( Kv < maxLinearDamping )
+	{
+		force += cMul(-Kv, linearVelocity);
+	}
 
     newForce.add(force);
 
