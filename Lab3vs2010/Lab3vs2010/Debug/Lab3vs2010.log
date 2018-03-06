@@ -1,0 +1,54 @@
+﻿Build started 3/6/2018 1:39:08 PM.
+     1>Project "C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Lab3vs2010\Lab3vs2010.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\Lab3vs2010.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"..\..\chai3d-2.0.0\src" /I"..\..\chai3d-2.0.0\external\OpenGL\msvc" /ZI /nologo /W3 /WX- /Od /Oy- /D _WIN32 /D _MSVC /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Lab3vs2010.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt MyImplementation.cpp
+         MyImplementation.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\Lab3vs2010.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"..\..\chai3d-2.0.0\lib\msvc9" /LIBPATH:"..\..\chai3d-2.0.0\external\OpenGL\msvc" winmm.lib opengl32.lib "chai3d-debug.lib" glu32.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Lab3vs2010.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\Lab3vs2010.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\Lab3vs2010.lib" /MACHINE:X86 Debug\Lab3vs2010.obj
+         Debug\MyImplementation.obj
+         Debug\stdafx.obj
+     1>Lab3vs2010.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+     1>chai3d-debug.lib(CDraw3D.obj) : warning LNK4248: unresolved typeref token (0100001C) for 'GLUquadric'; image may not run
+     1>chai3d-debug.lib(CShapeSphere.obj) : warning LNK4248: unresolved typeref token (0100001C) for 'GLUquadric'; image may not run
+     1>chai3d-debug.lib(CDeltaDevices.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CDeltaDevices.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CFalconDevice.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CFalconDevice.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CFreedom6SDevice.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CFreedom6SDevice.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CGenericDevice.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CGenericDevice.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CGenericHapticDevice.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CGenericHapticDevice.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CHapticDeviceHandler.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CHapticDeviceHandler.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CPhantomDevices.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CPhantomDevices.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CVirtualDevice.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CVirtualDevice.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CViewport.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CViewport.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CFileLoaderBMP.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CFileLoaderBMP.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CFileLoaderTGA.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CFileLoaderTGA.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CImageLoader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CImageLoader.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CDraw3D.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CDraw3D.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CMacrosGL.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CMacrosGL.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CMaterial.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CMaterial.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CTexture2D.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CTexture2D.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CString.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CString.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CCamera.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CCamera.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CGenericObject.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CGenericObject.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CLight.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CLight.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CShapeLine.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CShapeLine.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CShapeSphere.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CShapeSphere.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CWorld.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CWorld.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CPrecisionClock.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CPrecisionClock.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CThread.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CThread.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CFont.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CFont.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CLabel.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CLabel.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+     1>chai3d-debug.lib(CExtras.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'chai3d-debug.lib(CExtras.obj)' or at 'C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\vc100.pdb'; linking object as if no debug info
+         Lab3vs2010.vcxproj -> C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\Lab3vs2010.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Debug\Lab3vs2010.exe;#1" /manifest Debug\Lab3vs2010.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug\Lab3vs2010.unsuccessfulbuild".
+         Touching "Debug\Lab3vs2010.lastbuildstate".
+     1>Done Building Project "C:\Users\Re Touch Lab\Desktop\Lab3\UCSB-ECE-594T-Lab\Lab3vs2010\Lab3vs2010\Lab3vs2010.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.55
