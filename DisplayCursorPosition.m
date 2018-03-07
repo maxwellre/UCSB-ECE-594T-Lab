@@ -26,9 +26,9 @@ xlabel('Time (secs)');
 
 % -------------------------------------------------------------------------
 % Display cursor spatial trajectory
-figure('Position',[780,80,800,600])
-plot3(CursorPosi(:,1),CursorPosi(:,2),CursorPosi(:,3));
-axis equal;
-xlabel('X-axis (mm)');
-ylabel('Y-axis (mm)');
-zlabel('Z-axis (mm)');
+% figure('Position',[780,80,800,600])
+% plot3(CursorPosi(:,1),CursorPosi(:,2),CursorPosi(:,3));
+% axis equal;
+% xlabel('X-axis (mm)');
+% ylabel('Y-axis (mm)');
+% zlabel('Z-axis (mm)');

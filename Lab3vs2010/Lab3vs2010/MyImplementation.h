@@ -6,6 +6,8 @@
 
 //---------------------------------------------------------------------------
 #include "chai3d.h"
+//#include "randomlib.h"
+#include "randlib.h"
 //---------------------------------------------------------------------------
 
 // A pointer to the haptic devices detected on this computer (defined in Lab1.cpp)

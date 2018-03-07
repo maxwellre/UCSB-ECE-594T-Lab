@@ -27,6 +27,9 @@
     <ClInclude Include="MyImplementation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="randlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -36,6 +39,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MyImplementation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="randlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
