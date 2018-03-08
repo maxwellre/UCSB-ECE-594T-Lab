@@ -5,11 +5,11 @@
 //#include <stdafx.h>
 #include "MyImplementation.h"
 
-bool isEventOn, isOutOfWall;
-int eCount;
+//bool isEventOn, isOutOfWall;
+//int eCount;
+//double eventResponse[1000];
 
-double eventResponse[1000];
-double textureData[1000];
+double textureForce[1000];
 
 // Implement the model inside the function (This function will be called at each haptic update loop)
 void myUpdate()
@@ -35,6 +35,7 @@ void myUpdate()
     // compute a reaction force
     cVector3d force (0,0,0);
 
+	/*---------------Hit event simulation (removed)----------------*/
 	//if (newPosition.y < 0.0)
 	//{
 	//	double Kp = 8000.0; // [N/m]
@@ -42,27 +43,14 @@ void myUpdate()
 
 	//	// apply force field
 	//	force = cMul(-Kp, newPosition);
- //       
+	//       
 	//    // apply viscosity 
-	//	
 	//	if ( Kv < maxLinearDamping )
 	//	{
 	//		force += cMul(-Kv, linearVelocity);
 	//	}
 
-	//	if( isOutOfWall ) isEventOn = true;
-
-	//		if (isEventOn)
-	//		{
-	//			force.y += eventResponse[eCount];
-	//			eCount++;
-	//			if (eCount == 1000)
-	//			{
-	//				eCount = 0;
-	//				isEventOn = false;
-	//			}
-	//		}
-
+	//	if( isOutOfWall ) isEventOn = true; // Turn on event only hit from outside of the wall
 	//	isOutOfWall = false;
 
 	//	force.x = 0.0; force.z = 0.0;
@@ -70,10 +58,24 @@ void myUpdate()
 	//else
 	//{
 	//	isOutOfWall = true;
-	//	isEventOn = false;
-	//	eCount = 0;
+	//	//isEventOn = false;
+	//	//eCount = 0;	
 	//}
 
+	//if (isEventOn)
+	//{	
+	//	force.y += linearVelocity.y * eventResponse[eCount];
+	//	//force.y += eventResponse[eCount];
+	//	eCount++;
+
+	//	if (eCount == 1000)
+	//	{
+	//		eCount = 0;
+	//		isEventOn = false;
+	//	}
+	//}
+
+	/*---------------Wall texture simulation----------------*/
 	if (newPosition.y < 0.0)
 	{
 		int textureInd;
@@ -90,11 +92,11 @@ void myUpdate()
 
 		double Kp = 8000.0; // [N/m]
 		double Kv = 0.5; // Kv < 20.0
-		double textureGain = 2.0;
+		double textureGain = 2000.0;
 
 		force = cMul(-Kp, newPosition);
 		force += cMul(-Kv, linearVelocity);
-		force.y += (textureGain * textureData[textureInd]);
+		force.y += (newPosition.y * textureGain * textureForce[textureInd]);
 		if (force.y < 0.0) force.y = 0.0;
 		force.x = 0.0; force.z = 0.0;	
 
@@ -108,27 +110,28 @@ void myUpdate()
 // Prepare your model inside the function (This function will be called only once during initialization)
 void myInitialization()
 {
-	const double Fs = 1000.0; // Haptic device sampling frequency = 1000.0 Hz by default
-	
-	// Event response = amplitude * e^(- alpha * t) * sin(2 * pi * fo * t), where t is the time.
-	double amplitude = 4.0; // Event amplitude
-	double fo = 200.0; // Event oscillating frequency (Hz)
-	double alpha = 10.0; // Event attenutation factor
+	//const double Fs = 1000.0; // Haptic device sampling frequency = 1000.0 Hz by default
+	//
+	//// Event response = amplitude * e^(- alpha * t) * sin(2 * pi * fo * t), where t is the time.
+	//double amplitude = 20.0; // Event amplitude
+	//double fo = 200.0; // Event oscillating frequency (Hz)
+	//double alpha = 20.0; // Event attenutation factor
 
-	std::string eventFileName;
-	eventFileName = "../../EventData.csv";
-	eventOFS.open(eventFileName);
+	//std::string eventFileName;
+	//eventFileName = "../../EventData.csv";
+	//eventOFS.open(eventFileName);
 
-	for (int i = 0; i < 1000; i++)
-	{
-		eventResponse[i] = amplitude * exp(-alpha * i / Fs) * sin(2 * PI * fo * i / Fs);
-		eventOFS << i << "," << eventResponse[i] << std::endl;
-	}
+	//for (int i = 0; i < 1000; i++)
+	//{
+	//	eventResponse[i] = amplitude * exp(-alpha * i / Fs) * sin(2 * PI * fo * i / Fs);
+	//	eventOFS << i << "," << eventResponse[i] << std::endl;
+	//}
+	//eventOFS.close();
 
-	// Initialization of the event model
-	isEventOn = false;
-	isOutOfWall = true;
-	eCount = 0;
+	//// Initialization of the event model
+	//isEventOn = false;
+	//isOutOfWall = true;
+	//eCount = 0;
 
 	//----------- Generate an array of data following normal distribution -----------//
 	double gauss_mean = 0.0;
@@ -137,9 +140,6 @@ void myInitialization()
 
 	for (int i = 0; i < 1000; i++)
 	{
-		textureData[i] = gauss(gauss_mean, gauss_var, &idumumber);
-		//eventOFS << textureData[i] << std::endl;
+		textureForce[i] = gauss(gauss_mean, gauss_var, &idumumber);
 	}
-
-	eventOFS.close();
 }
