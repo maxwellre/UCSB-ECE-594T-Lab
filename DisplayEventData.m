@@ -15,4 +15,4 @@ axisLabel = {'X','Y','Z'};
 figure('Position',[80,80,800,600])
 plot(eventData(:,1)*Ts,eventData(:,2));
 ylabel('Amplitude');
-xlabel('Time (secs)');
+% xlabel('Time (secs)');

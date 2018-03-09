@@ -92,7 +92,7 @@ void myUpdate()
 
 		double Kp = 8000.0; // [N/m]
 		double Kv = 0.5; // Kv < 20.0
-		double textureGain = 2000.0;
+		double textureGain = 3000.0;
 
 		force = cMul(-Kp, newPosition);
 		force += cMul(-Kv, linearVelocity);
@@ -117,9 +117,9 @@ void myInitialization()
 	//double fo = 200.0; // Event oscillating frequency (Hz)
 	//double alpha = 20.0; // Event attenutation factor
 
-	//std::string eventFileName;
-	//eventFileName = "../../EventData.csv";
-	//eventOFS.open(eventFileName);
+	std::string eventFileName;
+	eventFileName = "../../EventData.csv";
+	eventOFS.open(eventFileName);
 
 	//for (int i = 0; i < 1000; i++)
 	//{
@@ -136,10 +136,17 @@ void myInitialization()
 	//----------- Generate an array of data following normal distribution -----------//
 	double gauss_mean = 0.0;
 	double gauss_var = 2.0;
-	long idumumber = -1.0;
+	long idumumber = -1;
+	double wavelength = 0.001 * 1.0;
+	double height = 0.1; // meters
+
+	double fx = 1.0/wavelength;
 
 	for (int i = 0; i < 1000; i++)
 	{
-		textureForce[i] = gauss(gauss_mean, gauss_var, &idumumber);
+		textureForce[i] = sin(2*PI*i*fx*height/1000.0);
+		//textureForce[i] = gauss(gauss_mean, gauss_var, &idumumber);
+		eventOFS << i << "," << textureForce[i] << std::endl;
 	}
+	eventOFS.close();
 }
