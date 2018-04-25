@@ -1,0 +1,2 @@
+For CHAI3D Documentation (v2.0.0), refer to:
+https://web.ece.ucsb.edu/courses/ECE594/594T_W18Visell/resources/html/annotated.html
